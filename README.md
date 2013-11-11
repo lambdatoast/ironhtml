@@ -2,7 +2,7 @@
 
 ## What is IronHTML?
 
-IronHTML is minimal HTML library for Scala with a functional approach.
+IronHTML is a minimal HTML library for Scala with a functional approach.
 
 ## References
 
