@@ -1,8 +1,4 @@
 object IronHTML {
-  /**
-   * Reference: http://www.w3.org/TR/html51/
-   */
-
   type HTMLAttribute = (String,String)
   sealed trait HTMLExpr
   case class HTMLElement(name: String, content: HTMLExpr, attrs: List[HTMLAttribute] = Nil) extends HTMLExpr
