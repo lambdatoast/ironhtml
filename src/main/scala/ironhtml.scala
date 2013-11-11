@@ -64,7 +64,7 @@ object IronHTML {
     }
   }
 
-  object viewers {
+  object renderer {
     def attrs(xs: List[HTMLAttribute]): String = xs.foldLeft("") { (acc,a) => acc + " " + a._1 + (if (a._2 != "") s"""="${a._2}"""" else "") }
     def render(e: HTMLExpr): String = e match {
       case HTMLElement(n,c,xs) => s"<${n}${attrs(xs)}>${render(c)}</$n>"
@@ -77,8 +77,8 @@ object IronHTML {
 
   import ops._
   import constructors._
-  import viewers._
- 
+  import renderer._
+
   val e1 = a("111".text).copy(attrs = List("href" -> "http://www.google.com"))
   val e2 = strong("222".text)
   val e3 = span("333".text)
