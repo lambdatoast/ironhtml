@@ -8,4 +8,5 @@ IronHTML is a minimal HTML library for Scala with a functional approach.
 
 The following material is being used as a guideline for the design of constraints and correctness of HTML structures.
 
-* [HTML: The Markup Language (an HTML language reference)](http://www.w3.org/TR/html-markup/Overview.html#toc)
+* [HTML5: A vocabulary and associated APIs for HTML and XHTML](http://www.w3.org/html/wg/drafts/html/CR/):
+* [Content models](http://www.w3.org/html/wg/drafts/html/CR/dom.html#content-models)
