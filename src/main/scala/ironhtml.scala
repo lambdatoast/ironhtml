@@ -1,3 +1,5 @@
+package ironhtml
+
 object IronHTML {
   type HTMLAttribute = (String,String)
   sealed trait HTMLExpr
