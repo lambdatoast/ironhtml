@@ -1,5 +1,15 @@
 package ironhtml
 
+object ContentModels {
+  sealed trait Embedded
+  sealed trait Flow
+  sealed trait Heading
+  sealed trait Interactive
+  sealed trait Metadata
+  sealed trait Phrasing
+  sealed trait Sectioning
+}
+
 object IronHTML {
   type HTMLAttribute = (String,String)
   sealed trait HTMLExpr
