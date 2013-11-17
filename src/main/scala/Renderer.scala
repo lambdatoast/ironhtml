@@ -3,12 +3,22 @@ package ironhtml
 object Renderer {
   import Element._
 
-  def render(e: Element): String = e match {
-    case Text(s) => s
-    case _ => e.content match {
-      case Some(c) => e.name.getOrElse("")
-      case None => ""
+  def attrs(xs: List[Attribute]): String = xs.foldLeft("") { (acc,a) => acc + " " + a._1 + (if (a._2 != "") s"""="${a._2}"""" else "") }
+    
+  def render(e: Element): String =
+    e.content match {
+      case Some(Left(c)) => e.elType match {
+        case Normal => s"<${e.name}${attrs(e.attrs)}>${render(c)}</${e.name}>"
+        case Void   => s"<${e.name}${attrs(e.attrs)}>"
+      }
+      case Some(Right(Text(c))) => e.elType match {
+        case Normal => s"<${e.name}${attrs(e.attrs)}>${c}</${e.name}>"
+        case Void   => s"<${e.name}${attrs(e.attrs)}>"
+      }
+      case None => e.elType match {
+        case Normal => s"<${e.name}${attrs(e.attrs)}></${e.name}>"
+        case Void   => s"<${e.name}${attrs(e.attrs)}>"
+      }
     }
-  }
 }
 
