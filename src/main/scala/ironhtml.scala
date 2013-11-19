@@ -1,9 +1,56 @@
 package ironhtml
 import scala.language.postfixOps
+import scala.language.implicitConversions
 
 object IronHTML {
 
   def main(args: Array[String]) {
+    testConstraints()
+  }
+
+  def testConstraints() {
+    object ContentModels {
+      sealed trait AnyContent
+      trait Embedded extends AnyContent
+      trait Flow extends AnyContent
+      trait Heading extends AnyContent
+      trait Interactive extends AnyContent
+      trait Metadata extends AnyContent
+      trait Phrasing extends AnyContent
+      trait Sectioning extends AnyContent
+
+      object evidences {
+        import UnionTypes._
+        sealed trait Lowest {
+          implicit def toFstOf3[T <: AnyContent](x: T): Any3[T,Nothing,Nothing] = FstOf3(x)
+        }
+        trait Low extends Lowest {
+          implicit def toSndOf3[T <: AnyContent](x: T): Any3[Nothing,T,Nothing] = SndOf3(x)
+        }
+        implicit object High extends Low {
+          implicit def toTrdOf3[T <: AnyContent](x: T): Any3[Nothing,Nothing,T] = TrdOf3(x)
+        }
+      }
+    }
+    import UnionTypes._
+    import ContentModels._
+    import ContentModels.evidences.High._
+
+    def add(a: Flow, b: Any3[Embedded, Flow, Heading]): Flow = a
+
+    println("")
+
+    println(add(new Flow {}, new Embedded {})) // OK
+    println(add(new Flow {}, new Flow {})) // OK
+    println(add(new Flow {}, new Heading {})) // OK
+    // println(add(new Flow {}, new Interactive {})) // compile time ERROR :)
+    println(add(new Flow {}, new Interactive with Embedded {})) // OK
+    println(add(new Flow {}, new Embedded with Flow {})) // OK! implicit conflict resolved by prioritization
+
+    println("")
+  }
+
+  def testHTMLCreation() {
     import Operations._
     import Element._
     import Element.constructors._
