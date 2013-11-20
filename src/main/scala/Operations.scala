@@ -3,6 +3,8 @@ package ironhtml
 object Operations {
   import Element._
 
+  def append(a: Element, b: Element): ElementList = ElementList(List(a, b))
+
   /*
   def fold(xs: List[HTMLExpr])(z: HTMLExpr)(f: (HTMLExpr, HTMLExpr) => HTMLExpr): HTMLExpr =
     xs.foldLeft(z)(f)

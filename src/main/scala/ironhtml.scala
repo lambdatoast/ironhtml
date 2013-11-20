@@ -12,11 +12,16 @@ object IronHTML {
     import Element._
     import ContentModels.evidences.High._
     import Renderer._
+    import Operations._
+    import Element.NonElementContent.evidences._
+
     println("")
     val a = Div(None, List("class" -> "row-fluid")).add(Div(None))
-    val b = Div(None).add(H1(None, List("id" -> "introduction")))
+    val b = Div(None).add(H1(Some(Text("Introduction")), List("id" -> "introduction")))
+    val c = Div(Some(append(a,b)))
     println(render(a))
     println(render(b))
+    println(render(c))
     // val c = H1(None).add(Div(None)) -- Error
     println("")
   }

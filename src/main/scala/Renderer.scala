@@ -14,6 +14,9 @@ object Renderer {
         case Normal => s"<${e.name}${attrs(e.attrs)}>${c}</${e.name}>"
         case Void   => s"<${e.name}${attrs(e.attrs)}>"
       }
+      case Some(Right(ElementList(xs))) => e.elType match {
+        case _ => xs.foldLeft("") { (acc, e) => acc + render(e) }
+      }
       case None => e.elType match {
         case Normal => s"<${e.name}${attrs(e.attrs)}></${e.name}>"
         case Void   => s"<${e.name}${attrs(e.attrs)}>"
