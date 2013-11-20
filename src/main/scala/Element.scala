@@ -51,6 +51,7 @@ object Element {
   sealed trait Add {
     type ContentModel
     def add(a: ContentModel): Element
+    def `|+|`(a: ContentModel) = add(a)
   }
 
   sealed trait Element {

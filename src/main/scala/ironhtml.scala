@@ -15,7 +15,7 @@ object IronHTML {
     import Element.NonElementContent.evidences._
 
     val a = Div(None, List("class" -> "row-fluid")).add(Div(None))
-    val b = Div(None).add(H1(Some(Text("Introduction")), List("id" -> "introduction")))
+    val b = Div(None) |+| H1(Some(Text("Introduction")), List("id" -> "introduction"))
     // val c = H1(None).add(Div(None)) -- Compile Error :)
     val c = Div(Some(a ++ b))
 
