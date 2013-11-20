@@ -5,9 +5,28 @@ object Operations {
 
   def concat(a: Element, b: Element): ElementList = ElementList(List(a, b))
 
-  implicit class SyntaxForElement(a: Element) {
-    def concat(b: Element): ElementList = Operations.concat(a, b)
-    def `++`(b: Element): ElementList = concat(b)
+  def merge[A <: Element,B <: Element](a: A, b: B)(implicit m: Merge[A]) = m.merge(b)
+
+  object evidences extends Syntax with MergeEvidences
+
+  trait Syntax {
+    implicit class OpSyntax[T <: Element](a: T) {
+      def concat(b: Element): ElementList = Operations.concat(a, b)
+      def `++`(b: Element): ElementList = concat(b)
+      def `<<<`(b: Element)(implicit m: Merge[T]) = Operations.merge(a,b)
+    }
+  }
+
+  // Typeclasses for operations
+
+  trait Merge[+A <: Element] {
+    def merge[B <: Element](b: B): A
+  }
+
+  trait MergeEvidences {
+    implicit object divMerge extends Merge[Div] {
+      def merge[B <: Element](b: B) = Div(None)
+    }
   }
 
   /*
