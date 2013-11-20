@@ -5,7 +5,7 @@ object Operations {
 
   def concat(a: Element, b: Element): ElementList = ElementList(List(a, b))
 
-  def merge[A <: Element,B <: Element](a: A, b: B)(implicit m: Merge[A]) = m.merge(b)
+  def merge[A <: Element,B <: Element](a: A, b: B)(implicit m: Merge[A]) = m.merge(a,b)
 
   object evidences extends Syntax with MergeEvidences
 
@@ -19,13 +19,24 @@ object Operations {
 
   // Typeclasses for operations
 
-  trait Merge[+A <: Element] {
-    def merge[B <: Element](b: B): A
+  trait Merge[A <: Element] {
+    def merge[B <: Element](a: A, b: B): A
   }
 
   trait MergeEvidences {
+    import Element.NonElementContent.evidences._
     implicit object divMerge extends Merge[Div] {
-      def merge[B <: Element](b: B) = Div(None)
+      def merge[T <: Element](a: Div, b: T) = a.content match {
+        case Some(Left(ea)) => b.content match {
+          case Some(Left(eb)) => a.copy(content = Some(concat(ea,eb)))
+          case _ => a
+        }
+        case Some(Right(Text(ta))) => b.content match {
+          case Some(Right(Text(tb))) => a.copy(content = Some(Text(ta ++ tb)))
+          case _ => a
+        }
+        case _ => a
+      }
     }
   }
 
