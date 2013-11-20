@@ -5,7 +5,20 @@ import scala.language.implicitConversions
 object IronHTML {
 
   def main(args: Array[String]) {
-    testConstraints()
+    //testConstraints()
+    testElement()
+  }
+  def testElement() {
+    import Element._
+    import ContentModels.evidences.High._
+    import Renderer._
+    println("")
+    val a = Div(None, List("class" -> "row-fluid")).add(Div(None))
+    val b = Div(None).add(H1(None, List("id" -> "introduction")))
+    println(render(a))
+    println(render(b))
+    // val c = H1(None).add(Div(None)) -- Error
+    println("")
   }
 
   def testConstraints() {
@@ -50,6 +63,7 @@ object IronHTML {
     println("")
   }
 
+  /*
   def testHTMLCreation() {
     import Operations._
     import Element._
@@ -76,6 +90,7 @@ object IronHTML {
       case e => e 
     } render)
   }
+  */
 
 }
 
