@@ -3,6 +3,7 @@ package ironhtml
 object Operations {
   import Element._
 
+  /*
   def fold(xs: List[HTMLExpr])(z: HTMLExpr)(f: (HTMLExpr, HTMLExpr) => HTMLExpr): HTMLExpr =
     xs.foldLeft(z)(f)
   def map(e: HTMLExpr)(f: HTMLExpr => HTMLExpr): HTMLExpr = e match {
@@ -37,4 +38,5 @@ object Operations {
     def merge(e2: HTMLExpr): HTMLExpr = Operations.merge(e, e2)
     def `<<<`(e2: HTMLExpr): HTMLExpr = Operations.merge(e, e2)
   }
+  */
 }
