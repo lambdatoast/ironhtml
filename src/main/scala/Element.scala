@@ -48,6 +48,11 @@ object Element {
 
   import NonElementContent.evidences._
 
+  sealed trait Add {
+    type ContentModel
+    def add(a: ContentModel): Element
+  }
+
   sealed trait Element {
     val elType: ElementType
     val name: String
@@ -55,19 +60,21 @@ object Element {
     val content: Option[Either[Element,NonElementContent]]
   }
 
-  case class Div(content: Option[Either[Element, NonElementContent]], attrs: List[Attribute] = Nil) extends Element with Flow {
+  case class Div(content: Option[Either[Element, NonElementContent]], attrs: List[Attribute] = Nil) extends Element with Flow with Add {
     val elType = Normal
     val name = "div"
-    def add[T <: Element](a: Any3[T with Flow,T with Interactive,T with Sectioning]) = a match {
+    type ContentModel = Any3[Element with Flow,Element with Interactive,Element with Sectioning]
+    def add(a: Any3[Element with Flow,Element with Interactive,Element with Sectioning]) = a match {
       case FstOf3(e) => Div(Some(e), attrs)
       case SndOf3(e) => Div(Some(e), attrs)
       case TrdOf3(e) => Div(Some(e), attrs)
     }
   }
-  case class H1(content: Option[Either[Element, NonElementContent]], attrs: List[Attribute] = Nil) extends Element with Flow with Heading {
+  case class H1(content: Option[Either[Element, NonElementContent]], attrs: List[Attribute] = Nil) extends Element with Flow with Heading with Add {
     val elType = Normal
     val name = "h1"
-    def add[T <: Element](e: T with Phrasing) = H1(Some(e), attrs)
+    type ContentModel = Element with Phrasing
+    def add(a: ContentModel) = H1(Some(a), attrs)
   }
 
 }
