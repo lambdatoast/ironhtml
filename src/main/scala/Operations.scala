@@ -3,7 +3,12 @@ package ironhtml
 object Operations {
   import Element._
 
-  def append(a: Element, b: Element): ElementList = ElementList(List(a, b))
+  def concat(a: Element, b: Element): ElementList = ElementList(List(a, b))
+
+  implicit class SyntaxForElement(a: Element) {
+    def concat(b: Element): ElementList = Operations.concat(a, b)
+    def `++`(b: Element): ElementList = concat(b)
+  }
 
   /*
   def fold(xs: List[HTMLExpr])(z: HTMLExpr)(f: (HTMLExpr, HTMLExpr) => HTMLExpr): HTMLExpr =

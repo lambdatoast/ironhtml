@@ -17,7 +17,7 @@ object IronHTML {
     val a = Div(None, List("class" -> "row-fluid")).add(Div(None))
     val b = Div(None).add(H1(Some(Text("Introduction")), List("id" -> "introduction")))
     // val c = H1(None).add(Div(None)) -- Compile Error :)
-    val c = Div(Some(append(a,b)))
+    val c = Div(Some(a ++ b))
 
     println("")
     println(render(a))
