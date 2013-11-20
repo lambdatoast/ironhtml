@@ -50,7 +50,8 @@ object Element {
 
   sealed trait Add {
     type ContentModel
-    def add(a: ContentModel): Element
+    type AdditionResult
+    def add(a: ContentModel): AdditionResult
     def `|+|`(a: ContentModel) = add(a)
   }
 
@@ -65,6 +66,7 @@ object Element {
     val elType = Normal
     val name = "div"
     type ContentModel = Any3[Element with Flow,Element with Interactive,Element with Sectioning]
+    type AdditionResult = Div
     def add(a: Any3[Element with Flow,Element with Interactive,Element with Sectioning]) = a match {
       case FstOf3(e) => Div(Some(e), attrs)
       case SndOf3(e) => Div(Some(e), attrs)
@@ -75,6 +77,7 @@ object Element {
     val elType = Normal
     val name = "h1"
     type ContentModel = Element with Phrasing
+    type AdditionResult = H1
     def add(a: ContentModel) = H1(Some(a), attrs)
   }
 
