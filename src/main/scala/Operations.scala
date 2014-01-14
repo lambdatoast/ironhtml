@@ -2,6 +2,7 @@ package ironhtml
 
 object Operations {
   import Element._
+  import Elements._
 
   def concat(a: Element, b: Element): ElementList = ElementList(List(a, b))
 
@@ -24,7 +25,7 @@ object Operations {
   }
 
   trait MergeEvidences {
-    import Element.NonElementContent.evidences._
+    import Element.evidences._
 
     implicit object divMerge extends Merge[Div] {
       def merge[T <: Element](a: Div, b: T) = a.content match {
