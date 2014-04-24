@@ -63,10 +63,10 @@ object HTML {
           }
         } toSet
 
-      def rightMap(f: String => String)(attrs: AttributeList): AttributeList =
+      def leftMap(f: NormalAttribute => NormalAttribute)(attrs: AttributeList): AttributeList =
         attrs.toList map {
           _ match {
-            case Left((k, v)) => Left((k, f(v)))
+            case Left(kv) => Left(f(kv))
             case k            => k
           }
         } toSet
