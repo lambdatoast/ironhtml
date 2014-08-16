@@ -1,4 +1,6 @@
 package ironhtml
+import scalaz._
+import Scalaz._
 
 object HTML {
 
@@ -51,9 +53,9 @@ object HTML {
   /** http://www.whatwg.org/specs/web-apps/current-work/multipage/grouping-content.html#the-ul-element */
   final case class HTMLUl(content: List[HTMLLi], attrs: AttributeList) extends HTMLElement
 
-  object Ops {
+  object AttributeList {
 
-    object AttributeList {
+    object Ops {
 
       def leftFilter(f: NormalAttribute => Boolean)(attrs: AttributeList): AttributeList =
         attrs.toList filter {
@@ -84,8 +86,31 @@ object HTML {
           }
         }
 
+      def find(name: String)(attrs: AttributeList): Option[Attribute] =
+        attrs.find {
+          _ match {
+            case Left((k, v)) if (k === name) => true
+            case Right(k) if (k === name) => true
+          }
+        }
     }
 
+  }
+
+  object Attribute {
+    object Ops {
+      def asNormalAttr(a: Attribute): Option[NormalAttribute] =
+        a match {
+          case Left(kv) => Some(kv)
+          case Right(_) => None
+        }
+
+      def asBooleanAttr(a: Attribute): Option[BooleanAttribute] =
+        a match {
+          case Left(_) => None
+          case Right(x) => Some(x)
+        }
+    }
   }
 
 }
